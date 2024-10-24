@@ -1,4 +1,97 @@
 -------------------------------------------------------------------------------
 Test set: com.parkit.parkingsystem.ParkingServiceTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.86 s - in com.parkit.parkingsystem.ParkingServiceTest
+Tests run: 6, Failures: 1, Errors: 5, Skipped: 0, Time elapsed: 4.467 s <<< FAILURE! - in com.parkit.parkingsystem.ParkingServiceTest
+testGetNextParkingNumberIfAvailableParkingNumberNotFound  Time elapsed: 4.346 s  <<< ERROR!
+org.mockito.exceptions.misusing.WrongTypeOfReturnValue: 
+
+null cannot be returned by getNextAvailableSlot()
+getNextAvailableSlot() should return int
+***
+If you're unsure why you're getting above error read on.
+Due to the nature of the syntax above problem might occur because:
+1. This exception *might* occur in wrongly written multi-threaded tests.
+   Please refer to Mockito FAQ on limitations of concurrency testing.
+2. A spy is stubbed using when(spy.foo()).then() syntax. It is safer to stub spies - 
+   - with doReturn|Throw() family of methods. More in javadocs for Mockito.spy() method.
+
+	at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailableParkingNumberNotFound(ParkingServiceTest.java:108)
+
+processExitingVehicleTestUnableUpdate  Time elapsed: 0.013 s  <<< ERROR!
+org.mockito.exceptions.misusing.PotentialStubbingProblem: 
+
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'updateTicket' method:
+    ticketDAO.updateTicket(null);
+    -> at com.parkit.parkingsystem.ParkingServiceTest.processExitingVehicleTestUnableUpdate(ParkingServiceTest.java:84)
+ - has following stubbing(s) with different arguments:
+    1. ticketDAO.updateTicket(null);
+      -> at com.parkit.parkingsystem.ParkingServiceTest.setUpPerTest(ParkingServiceTest.java:46)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+	at com.parkit.parkingsystem.ParkingServiceTest.processExitingVehicleTestUnableUpdate(ParkingServiceTest.java:84)
+
+testGetNextParkingNumberIfAvailableParkingNumberWrongArgument  Time elapsed: 0.064 s  <<< ERROR!
+org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+
+Unnecessary stubbings detected.
+Clean & maintainable test code requires zero unnecessary code.
+Following stubbings are unnecessary (click to navigate to relevant line of code):
+  1. -> at com.parkit.parkingsystem.ParkingServiceTest.setUpPerTest(ParkingServiceTest.java:38)
+  2. -> at com.parkit.parkingsystem.ParkingServiceTest.setUpPerTest(ParkingServiceTest.java:45)
+  3. -> at com.parkit.parkingsystem.ParkingServiceTest.setUpPerTest(ParkingServiceTest.java:46)
+  4. -> at com.parkit.parkingsystem.ParkingServiceTest.setUpPerTest(ParkingServiceTest.java:48)
+Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
+
+testGetNextParkingNumberIfAvailable  Time elapsed: 0.012 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.parkit.parkingsystem.model.ParkingSpot.getId()" because "parkingNumber" is null
+	at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailable(ParkingServiceTest.java:100)
+
+processExitingVehicleTest  Time elapsed: 0.018 s  <<< FAILURE!
+org.mockito.exceptions.verification.WantedButNotInvoked: 
+
+Wanted but not invoked:
+ticketDAO.getNbTicket("ABCDEF");
+-> at com.parkit.parkingsystem.ParkingServiceTest.processExitingVehicleTest(ParkingServiceTest.java:67)
+
+However, there were exactly 3 interactions with this mock:
+ticketDAO.getTicket("ABCDEF");
+-> at com.parkit.parkingsystem.service.ParkingService.processExitingVehicle(ParkingService.java:105)
+
+ticketDAO.checkRecurrentCustomer("ABCDEF");
+-> at com.parkit.parkingsystem.service.ParkingService.processExitingVehicle(ParkingService.java:109)
+
+ticketDAO.updateTicket(
+    com.parkit.parkingsystem.model.Ticket@2d237460
+);
+-> at com.parkit.parkingsystem.service.ParkingService.processExitingVehicle(ParkingService.java:111)
+
+
+	at com.parkit.parkingsystem.ParkingServiceTest.processExitingVehicleTest(ParkingServiceTest.java:67)
+
+processIncomingVehicleTest  Time elapsed: 0.007 s  <<< ERROR!
+org.mockito.exceptions.misusing.PotentialStubbingProblem: 
+
+Strict stubbing argument mismatch. Please check:
+ - this invocation of 'updateParking' method:
+    parkingSpotDAO.updateParking(null);
+    -> at com.parkit.parkingsystem.ParkingServiceTest.processIncomingVehicleTest(ParkingServiceTest.java:74)
+ - has following stubbing(s) with different arguments:
+    1. parkingSpotDAO.updateParking(null);
+      -> at com.parkit.parkingsystem.ParkingServiceTest.setUpPerTest(ParkingServiceTest.java:48)
+Typically, stubbing argument mismatch indicates user mistake when writing tests.
+Mockito fails early so that you can debug potential problem easily.
+However, there are legit scenarios when this exception generates false negative signal:
+  - stubbing the same method multiple times using 'given().will()' or 'when().then()' API
+    Please use 'will().given()' or 'doReturn().when()' API for stubbing.
+  - stubbed method is intentionally invoked with different arguments by code under test
+    Please use default or 'silent' JUnit Rule (equivalent of Strictness.LENIENT).
+For more information see javadoc for PotentialStubbingProblem class.
+	at com.parkit.parkingsystem.ParkingServiceTest.processIncomingVehicleTest(ParkingServiceTest.java:74)
+
