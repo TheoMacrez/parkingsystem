@@ -32,17 +32,19 @@ public class ParkingServiceTest {
     @Mock
     private static TicketDAO ticketDAO;
 
-    private Ticket ticket;
+    private Ticket carTicket;
+
 
     @BeforeEach
     public void setUpPerTest() {
         try {
 
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-            ticket = new Ticket();
-            ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
-            ticket.setParkingSpot(parkingSpot);
-            ticket.setVehicleRegNumber("ABCDEF");
+            carTicket = new Ticket();
+            carTicket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
+            carTicket.setParkingSpot(parkingSpot);
+            carTicket.setVehicleRegNumber("ABCDEF");
+
 
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         } catch (Exception e) {
@@ -60,7 +62,7 @@ public class ParkingServiceTest {
             throw new RuntimeException(e);
         }
 
-        when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+        when(ticketDAO.getTicket(anyString())).thenReturn(carTicket);
         when(ticketDAO.checkRecurrentCustomer("ABCDEF")).thenReturn(true);
 
         parkingService.processExitingVehicle();
@@ -68,6 +70,7 @@ public class ParkingServiceTest {
         verify(ticketDAO, Mockito.times(1)).getTicket(anyString());
         verify(ticketDAO, Mockito.times(1)).checkRecurrentCustomer("ABCDEF");
     }
+
 
     @Test
     public void processIncomingVehicleTest() {
@@ -95,7 +98,7 @@ public class ParkingServiceTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+        when(ticketDAO.getTicket(anyString())).thenReturn(carTicket);
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(false);
 
         parkingService.processExitingVehicle();

@@ -23,6 +23,9 @@ public class FareCalculatorService {
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
 
+
+        System.out.println("Discount = " + discount);
+
         // Convertir les dates en Instant
         Instant inTimeInstant = ticket.getInTime().toInstant();
         Instant outTimeInstant = ticket.getOutTime().toInstant();

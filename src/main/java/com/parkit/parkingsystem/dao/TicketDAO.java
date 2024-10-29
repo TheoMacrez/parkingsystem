@@ -19,6 +19,8 @@ public class TicketDAO {
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
+    public ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO();
+
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
         try {
@@ -52,7 +54,8 @@ public class TicketDAO {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 ticket = new Ticket();
-                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)),false);
+                //ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)),false);
+                ParkingSpot parkingSpot = parkingSpotDAO.getParkingSpotWithNumber(rs.getInt(1));
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setId(rs.getInt(2));
                 ticket.setVehicleRegNumber(vehicleRegNumber);
@@ -113,6 +116,7 @@ public class TicketDAO {
     public boolean checkRecurrentCustomer(String vehicleRegNumber)
     {
         int nbPreviousTicket = getNbTicket(vehicleRegNumber);
-        return nbPreviousTicket > 0;
+        System.out.println("nbPreviousTicket" + nbPreviousTicket);
+        return nbPreviousTicket > 1;
     }
 }

@@ -9,6 +9,7 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
 import java.util.Date;
 
 public class ParkingService {
@@ -119,6 +120,30 @@ public class ParkingService {
             }
         }catch(Exception e){
             logger.error("Unable to process exiting vehicle",e);
+        }
+    }
+
+    public void processExitingVehicle(Date outTime) {
+        try {
+            String vehicleRegNumber = getVehicleRegNumber();
+            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+
+            // Utilise la date de sortie personnalisée pour le test
+            ticket.setOutTime(outTime);
+
+            fareCalculatorService.calculateFare(ticket, ticketDAO.checkRecurrentCustomer(vehicleRegNumber));
+
+            if (ticketDAO.updateTicket(ticket)) {
+                ParkingSpot parkingSpot = ticket.getParkingSpot();
+                parkingSpot.setAvailable(true);
+                parkingSpotDAO.updateParking(parkingSpot);
+                System.out.println("Please pay the parking fare:" + ticket.getPrice());
+                System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
+            } else {
+                System.out.println("Unable to update ticket information. Error occurred");
+            }
+        } catch (Exception e) {
+            logger.error("Unable to process exiting vehicle", e);
         }
     }
 }

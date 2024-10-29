@@ -66,6 +66,19 @@
             <artifactId>log4j-core</artifactId>
             <version>2.17.2</version> <!-- Mise à jour de la version -->
         </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Cucumber JUnit pour exécuter les tests -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>7.11.0</version>
+            <scope>test</scope>
+        </dependency>
 
 
     </dependencies>
@@ -129,7 +142,7 @@
                         <phase>integration-test</phase>
                         <configuration>
                             <excludes>
-                                <exclude>none</exclude>
+
                             </excludes>
                             <includes>
                                 <include>**/*IT.java</include>
@@ -142,6 +155,18 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version> <!-- Mise à jour ici -->
+                <configuration>
+                    <excludes>
+                        <exclude>com/parkit/parkingsystem/config/*
+                        </exclude>
+                        <exclude>com/parkit/parkingsystem/constants/*
+                        </exclude>
+                        <exclude>com/parkit/parkingsystem/model/*
+                        </exclude>
+                        <exclude>com/parkit/parkingsystem/util/*
+                        </exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
