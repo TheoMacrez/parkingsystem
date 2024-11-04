@@ -92,7 +92,7 @@ public class ParkingDataBaseIT {
         assertThat(getOutTicket.getOutTime()).isNotNull();
         assertThat(getOutTicket.getPrice()).isGreaterThan(0);
         assertThat(getOutTicket.getParkingSpot().isAvailable()).isTrue();
-        //TODO: check that the fare generated and out time are populated correctly in the database
+
     }
 
 

@@ -151,39 +151,51 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.10</version> <!-- Mise à jour ici -->
-                <configuration>
-                    <excludes>
-                        <exclude>com/parkit/parkingsystem/config/*
-                        </exclude>
-                        <exclude>com/parkit/parkingsystem/constants/*
-                        </exclude>
-                        <exclude>com/parkit/parkingsystem/model/*
-                        </exclude>
-                        <exclude>com/parkit/parkingsystem/util/*
-                        </exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>jacoco-report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
+    <!-- Profil Jacoco pour la branche "dev" uniquement -->
+    <profiles>
+        <profile>
+            <id>jacoco-on-dev</id>
+            <activation>
+                <property>
+                    <name>branch</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.10</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/parkit/parkingsystem/config/*</exclude>
+                                <exclude>com/parkit/parkingsystem/constants/*</exclude>
+                                <exclude>com/parkit/parkingsystem/model/*</exclude>
+                                <exclude>com/parkit/parkingsystem/util/*</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>jacoco-report</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
