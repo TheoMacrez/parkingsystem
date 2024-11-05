@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.util.Date;
 
+
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
