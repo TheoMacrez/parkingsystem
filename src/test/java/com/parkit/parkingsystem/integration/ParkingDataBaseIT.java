@@ -104,14 +104,15 @@ public class ParkingDataBaseIT {
 
 
         parkingService.processIncomingVehicle();
+
         Ticket getInTicket = ticketDAO.getTicket(registrationTested); // Ajoute un ticket initial pour marquer comme récurrent
         // Simule une sortie après 3 heures
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(getInTicket.getInTime());
         calendar.add(Calendar.HOUR_OF_DAY, 3);  // Ajoute 3 heures
 
-
         parkingService.processExitingVehicle(calendar.getTime());
+
         Ticket getOutTicket = ticketDAO.getTicket(registrationTested);
         double expectedPriceWithDiscount = (3 * Fare.CAR_RATE_PER_HOUR)*0.95; // 5% de réduction
         assertThat(getOutTicket.getPrice()).isCloseTo(expectedPriceWithDiscount, within(0.01));
